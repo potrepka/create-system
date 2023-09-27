@@ -1,6 +1,6 @@
 {
   "name": "create-system",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Nathaniel Potrepka",
   "bin": {
     "create-system": "./bin/index.js"
