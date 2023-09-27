@@ -1,0 +1,49 @@
+{
+  "name": "create-system",
+  "version": "0.0.1",
+  "author": "Nathaniel Potrepka",
+  "bin": {
+    "create-system": "./bin/index.js"
+  },
+  "dependencies": {
+    "enquirer": "2.4.1"
+  },
+  "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "4.2.0",
+    "@tsconfig/recommended": "1.0.3",
+    "@typescript-eslint/eslint-plugin": "6.7.3",
+    "@typescript-eslint/parser": "6.7.3",
+    "bun-types": "1.0.2",
+    "concurrently": "8.2.1",
+    "eslint": "8.49.0",
+    "eslint-config-airbnb-base": "15.0.0",
+    "eslint-config-airbnb-typescript": "17.1.0",
+    "eslint-config-prettier": "9.0.0",
+    "eslint-config-turbo": "1.10.14",
+    "eslint-plugin-import": "2.28.1",
+    "husky": "8.0.3",
+    "prettier": "3.0.3",
+    "syncpack": "11.2.1",
+    "tsup": "7.2.0",
+    "typescript": "5.2.2"
+  },
+  "files": [
+    "bin",
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --minify",
+    "clean": "rm -rf dist",
+    "lint": "eslint --cache --ext .ts,.tsx src",
+    "lint:format": "prettier --cache --check \"**/*.{js,ts,tsx,md,mdx,json}\"",
+    "lint:packages": "concurrently bun:lint:packages:*",
+    "lint:packages:format": "syncpack format",
+    "lint:packages:mismatches": "syncpack list-mismatches",
+    "lint:packages:semver": "syncpack lint-semver-ranges",
+    "prepare": "husky install"
+  },
+  "type": "module"
+}
