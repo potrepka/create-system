@@ -53,9 +53,14 @@ const getInfo = (): Promise<Info> =>
       choices: TYPE_CHOICES,
     },
     {
+      type: 'input',
+      name: 'author',
+      message: 'Who is the author?',
+    },
+    {
       type: 'select',
-      name: 'type',
-      message: 'Which license will you use?',
+      name: 'license',
+      message: 'Under which license will the package be published?',
       choices: LICENSE_CHOICES,
     },
   ])
