@@ -6,11 +6,13 @@
     "create-system": "./bin/index.js"
   },
   "dependencies": {
-    "enquirer": "2.4.1"
+    "enquirer": "2.4.1",
+    "lodash": "4.17.21"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "4.2.0",
     "@tsconfig/recommended": "1.0.3",
+    "@types/lodash": "4.14.199",
     "@typescript-eslint/eslint-plugin": "6.7.3",
     "@typescript-eslint/parser": "6.7.3",
     "bun-types": "1.0.2",
@@ -34,6 +36,7 @@
     "README.md"
   ],
   "license": "MIT",
+  "repository": "github:potrepka/create-system",
   "scripts": {
     "build": "tsup src/index.ts --format esm --minify",
     "clean": "rm -rf dist",

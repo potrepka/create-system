@@ -1,116 +1,90 @@
 import enquirer from 'enquirer'
+import createExpoApp from 'scripts/expo'
+import createExpressService from 'scripts/express'
+import createLibrary from 'scripts/library'
+import lintSystem from 'scripts/lint'
+import prepareSystem from 'scripts/prepare'
+import createReactApp from 'scripts/react'
+import createTurboMonorepo from 'scripts/turbo'
+import { Choice, Host, License, PackageInfo, PackageType } from 'types'
 
-type Type =
-  | 'typescript-library'
-  | 'express-service'
-  | 'react-app'
-  | 'expo-app'
-  | 'turbo-monorepo'
-
-type License = 'mit' | 'apache-2.0' | 'none'
-
-type TypeChoice = {
-  message: string
-  name: Type
-}
-
-type LicenseChoice = {
-  message: string
-  name: License
-}
-
-type Info = {
-  name: string
-  type: Type
-  license: License
-}
-
-const TYPE_CHOICES: TypeChoice[] = [
-  { message: 'Library (TypeScript)', name: 'typescript-library' },
+const TYPE_CHOICES: Choice<PackageType>[] = [
+  { message: 'Library', name: 'library' },
   { message: 'Service (Express)', name: 'express-service' },
   { message: 'App (React)', name: 'react-app' },
   { message: 'App (Expo)', name: 'expo-app' },
   { message: 'Monorepo (Turbo)', name: 'turbo-monorepo' },
 ]
 
-const LICENSE_CHOICES: LicenseChoice[] = [
-  { message: 'MIT', name: 'mit' },
-  { message: 'Apache 2.0', name: 'apache-2.0' },
+const HOST_CHOICES: Choice<Host>[] = [
+  { message: 'GitHub', name: 'github' },
+  { message: 'Gist', name: 'gist' },
+  { message: 'Bitbucket', name: 'bitbucket' },
+  { message: 'GitLab', name: 'gitlab' },
   { message: 'None', name: 'none' },
 ]
 
-const getInfo = (): Promise<Info> =>
+const LICENSE_CHOICES: Choice<License>[] = [
+  { message: 'MIT', name: 'MIT' },
+  { message: 'Apache 2.0', name: 'Apache-2.0' },
+  { message: 'None', name: 'none' },
+]
+
+const getPackageInfo = (): Promise<PackageInfo> =>
   enquirer.prompt([
     {
       type: 'input',
       name: 'name',
-      message: 'What is the package name?',
-    },
-    {
-      type: 'select',
-      name: 'type',
-      message: 'What is the package type?',
-      choices: TYPE_CHOICES,
+      message: 'What is the name of this package?',
     },
     {
       type: 'input',
       name: 'author',
-      message: 'Who is the author?',
+      message: 'Who is the author of this package?',
     },
     {
       type: 'select',
       name: 'license',
-      message: 'Under which license will the package be published?',
+      message: 'Which license would you like to use?',
       choices: LICENSE_CHOICES,
+    },
+    {
+      type: 'select',
+      name: 'type',
+      message: 'Which template would you like to use?',
+      choices: TYPE_CHOICES,
+    },
+    {
+      type: 'select',
+      name: 'host',
+      message: 'Where will the repository be hosted?',
+      choices: HOST_CHOICES,
     },
   ])
 
-const createTypescriptLibrary = (info: Info) => {
-  // eslint-disable-next-line no-empty-pattern
-  const {} = info
-}
-
-const createExpressService = (info: Info) => {
-  // eslint-disable-next-line no-empty-pattern
-  const {} = info
-}
-
-const createReactApp = (info: Info) => {
-  // eslint-disable-next-line no-empty-pattern
-  const {} = info
-}
-
-const createExpoApp = (info: Info) => {
-  // eslint-disable-next-line no-empty-pattern
-  const {} = info
-}
-
-const createTurboMonorepo = (info: Info) => {
-  // eslint-disable-next-line no-empty-pattern
-  const {} = info
-}
-
 const createSystem = async () => {
-  const info = await getInfo()
+  const info = await getPackageInfo()
+  await prepareSystem(info)
   switch (info.type) {
-    case 'typescript-library':
-      createTypescriptLibrary(info)
+    case 'library':
+      await createLibrary(info)
       break
     case 'express-service':
-      createExpressService(info)
+      await createExpressService(info)
       break
     case 'react-app':
-      createReactApp(info)
+      await createReactApp(info)
       break
     case 'expo-app':
-      createExpoApp(info)
+      await createExpoApp(info)
       break
     case 'turbo-monorepo':
-      createTurboMonorepo(info)
+      await createTurboMonorepo(info)
       break
     default:
       break
   }
+  await lintSystem()
 }
 
 export default createSystem

@@ -1,9 +1,7 @@
 {
   "compilerOptions": {
-    "allowImportingTsExtensions": true,
-    "allowJs": true,
     "allowSyntheticDefaultImports": true,
-    "composite": true,
+    "baseUrl": "./src",
     "downlevelIteration": true,
     "forceConsistentCasingInFileNames": true,
     "jsx": "react-jsx",
@@ -16,5 +14,7 @@
     "strict": true,
     "target": "esnext",
     "types": ["bun-types"]
-  }
+  },
+  "exclude": ["dist", "node_modules"],
+  "include": ["src"]
 }

@@ -1,18 +1,26 @@
 # create-system
 
-Usage:
+Without installation:
 
 ```bash
-mkdir example
-cd example
 bun create system
 ```
 
-Global installation:
+With global installation:
 
 ```bash
-bun install -g create-system
-mkdir example
-cd example
+bun add -g create-system
+
+# Usage
 create-system
+```
+
+For local development:
+
+```bash
+bun install
+bun run build
+
+# Usage
+bun bin/index.js
 ```
