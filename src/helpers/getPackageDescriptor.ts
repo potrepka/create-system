@@ -6,7 +6,7 @@ const getPackageDescriptor = (
   packageInfo: PackageInfo,
   repositoryInfo: RepositoryInfo,
 ) => {
-  const { name, author, license, template, host } = packageInfo
+  const { name, author, license, template, packageManager, host } = packageInfo
   const repository = getRepository(host, repositoryInfo)
   const scripts = getScripts(packageInfo)
   return {
@@ -16,10 +16,11 @@ const getPackageDescriptor = (
     ...(license !== 'none' && { license }),
     ...(repository !== 'none' && { repository }),
     scripts,
-    ...(template === 'turbo-monorepo' && {
+    ...(template === 'turbo-monorepo' &&
       // TODO: Create pnpm-workspace.yaml for pnpm
-      workspaces: ['apps/*', 'packages/*'],
-    }),
+      packageManager !== 'pnpm' && {
+        workspaces: ['apps/*', 'packages/*'],
+      }),
   }
 }
 
